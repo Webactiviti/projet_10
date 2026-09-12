@@ -33,6 +33,19 @@ sudo docker run --rm   -v $(pwd)/data/processed:/app/data/processed   dock_prj10
 sudo docker run --rm   -v $(pwd)/data/processed:/app/data/processed   dock_prj10 python scripts/resultat_req.py
 
 
+* DashBoard Kestra
+
+<img src="img/dashboard.png" alt="capture écran" width ="400" >
+
+
+* Overview Kestra
+
+<img src="img/exec1_kestra.png" alt="capture écran" width ="400" >
+
+* file export Kestra
+
+<img src="img/file_export.png" alt="capture écran" width ="400" >
+
 ## 📂 Structure du Répertoire
 
 ```text
