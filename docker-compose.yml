@@ -1,0 +1,36 @@
+services:
+  kestra:
+    image: kestra/kestra:latest
+    container_name: dock_prj10
+    user : root
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+      - ./data/processed:/app/data/processed
+      - ./data/exports:/app/data/exports
+      - ./data/xls:/app/data/xls
+      - ./scripts:/app/scripts
+      - /var/run/docker.sock:/var/run/docker.sock
+      - kestra_storage:/app/data
+      - ./scripts/insert_xls.py:/app/scripts/insert_xls.py
+      - ./scripts/resultat_req.py:/app/scripts/resultat_req.py
+    environment:
+      KESTRA_CONFIGURATION: |
+        kestra:
+          repository:
+            type: h2
+            h2:
+              path: /app/data/kestra_db
+          queue:
+            type: h2
+            h2:
+              path: /app/data/kestra_db
+          storage:
+            type: local
+            local:
+              base-path: /app/data/files
+    command: server standalone
+
+volumes:
+  kestra_storage:

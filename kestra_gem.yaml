@@ -1,0 +1,31 @@
+id: pipeline_python_V27
+namespace: dev
+
+tasks:
+  - id: exec_script_python
+    type: io.kestra.plugin.scripts.python.Commands
+    containerImage: dock_prj10
+
+    pythonVersion : "3.13"
+    
+    # Kestra monte automatiquement son répertoire de travail temporaire
+    taskRunner:
+      type: io.kestra.plugin.scripts.runner.docker.Docker
+
+
+    # On déclare les fichiers que Kestra doit conserver après l'exécution
+    outputFiles:
+      - "**/*.xlsx"
+      - "**/*.csv"
+    commands:
+      - mkdir -p  data/exports
+      - python /app/scripts/insert_xls.py
+      - python /app/scripts/resultat_req.py
+
+# Planification à 9h le 15 du mois
+triggers:
+    - id: mensuel_15_9h
+      type: io.kestra.plugin.core.trigger.Schedule
+      cron: "0 9 15 * *"
+      
+
