@@ -30,7 +30,7 @@ sudo docker build -t dock_prj10 .
 sudo docker run --rm   -v $(pwd)/data/processed:/app/data/processed   dock_prj10 python scripts/insert_xls.py
 
 
-sudo docker run --rm   -v $(pwd)/data/exports:/app/data/exports   -v $(pwd)/data/processed:/app/data/processed   dock_prj10 python scripts/resultat_req.py
+sudo docker run --rm   -v $(pwd)/data/processed:/app/data/processed   dock_prj10 python scripts/resultat_req.py
 
 
 ## 📂 Structure du Répertoire
