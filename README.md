@@ -54,5 +54,6 @@ projet_10/
 ├── scripts                                         # répertoire des scripts python 
 |    └── insert_xls.py                              # fichier python insertion des données
 |    └── resultat_req.py                            # fichier python génération des rapport csv et xlsx
+├── img                                             # répertoire  images 
 └── README.md                                       # Documentation du projet
 ```
