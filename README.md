@@ -10,8 +10,27 @@ Mettez en place un pipiline d'orchestration des flux
 
 
 * test en local des scripts
+
 uv run python ./scripts/insert_xls.py 
 uv run python ./scripts/resultat_req.py
+
+
+* création du docker
+
+sudo docker compose up -d
+
+* built
+ 
+sudo docker build -t dock_prj10 .
+
+
+* test des scripts sur docker avec création des fichiers en local
+
+
+sudo docker run --rm   -v $(pwd)/data/processed:/app/data/processed   dock_prj10 python scripts/insert_xls.py
+
+
+sudo docker run --rm   -v $(pwd)/data/exports:/app/data/exports   -v $(pwd)/data/processed:/app/data/processed   dock_prj10 python scripts/resultat_req.py
 
 
 ## 📂 Structure du Répertoire
