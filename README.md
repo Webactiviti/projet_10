@@ -9,6 +9,11 @@ Mettez en place un pipiline d'orchestration des flux
 * flow code pour Kestra avec cron pour le 15 du mois à 9h
 
 
+* test en local des scripts
+uv run python ./scripts/insert_xls.py 
+uv run python ./scripts/resultat_req.py
+
+
 ## 📂 Structure du Répertoire
 
 ```text
