@@ -19,9 +19,23 @@ uv run python ./scripts/resultat_req.py
 
 sudo docker compose up -d
 
+
 * built
  
 sudo docker build -t dock_prj10 .
+
+ou
+
+sudo docker build --no-cache -t dock_prj10 .
+
+
+
+* test des scripts en local
+
+uv run python ./scripts/insert_xls.py
+
+uv run python ./scripts/resultat_req.py
+
 
 
 * test des scripts sur docker avec création des fichiers en local
@@ -31,6 +45,10 @@ sudo docker run --rm   -v $(pwd)/data/processed:/app/data/processed   dock_prj10
 
 
 sudo docker run --rm   -v $(pwd)/data/processed:/app/data/processed   dock_prj10 python scripts/resultat_req.py
+
+* URL accès Kestra ( port définie dans le docker-compose.yml)
+
+http://localhost:8080
 
 
 * DashBoard Kestra

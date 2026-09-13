@@ -7,6 +7,12 @@ import sys
 from datetime import datetime 
 from pathlib import Path
 
+# paramètres des tests
+
+ca_total_attendu = 70568.60
+nb_vin_mil =30
+file_fusion =714
+
 con = None
 # répertoire des fichiers
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,9 +54,17 @@ try:
     df_ca.to_excel(file_ca, index=False, engine="openpyxl")
     print ("\n-----------------------------------------------------------------------") 
     print(f"Fichier Excel CA généré : {file_ca}")
-
+    print(f" CA attendu : {ca_total_attendu}")
+    if ca_total_attendu != file_ca :
+        print("\n### Problème entre CA attendu et CA calculé ###\n")
+    else :
+        print("\n### test vérification CA réussi ###\n")
     ca_total = df_ca['chiffre_affaires'].sum()
     print(f"Chiffre d'Affaires Total  : {ca_total:,.2f} €")
+    if file_fusion !=  len(df_ca) :
+        print (f"Problème entre fichier fusionné attendu : {file_fusion} et calculé :{len(df_ca)}")
+    else :
+        print("\n### test vérification nb fichier fusionné réussi ###\n")
     print ("----------------------------------------------------------------------")
 
 
@@ -100,7 +114,12 @@ try:
     df_premium.to_csv(fichier_premium, index=False, encoding="utf-8")
     print ("\n-----------------------------------------------------------------------") 
     print(f"Fichier CSV vins premium (Z-Score > 2) généré : {fichier_premium}")  
-    print(f"Nombre de vins millésimes : {len(df_premium)}")  
+    print(f"Nombre de vins millésimes : {len(df_premium)}") 
+    print(f"Nombre de vins millésimes attendus: {nb_vin_mil}") 
+    if nb_vin_mil != len(df_premium) :
+        print("\n### Problème entre vins millésimes attendu et vins millésimes calculé ###\n")
+    else :
+        print("\n### test nombre vins millésimes réussi ###\n")
     print ("----------------------------------------------------------------------")
     # -------------------------------------------------------------
     #  EXTRACTION : Vins Ordinaires (Z-Score <= 2) (.csv)

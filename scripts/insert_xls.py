@@ -6,6 +6,12 @@ import os
 import sys
 from pathlib import Path
 
+# paramètres de test
+nb_lig_erp_after = 825 
+nb_lig_liaison_after = 825 
+nb_lig_web_after = 1428
+nb_lig_web_after_db = 714
+
 print("--- DEBUT DU PIPELINE INSERTION ---\n")
 
 # répertoire des fichiers
@@ -14,7 +20,7 @@ XLS_DIR = BASE_DIR /  "data/xls"
 PROCESSED_DIR = BASE_DIR / "data/processed"
 os.makedirs(PROCESSED_DIR, exist_ok=True)
 
-# Lecture dichier ERP
+# Lecture fichier ERP
 df_erp_xls = None
 try:
     df_erp_xls = pd.read_excel(f"{XLS_DIR}/Fichier_erp.xlsx",sheet_name="Sheet1")
@@ -115,6 +121,11 @@ nb_ligne_web_clean= len (df_web_xls_clean)
 print ("\n-----------------------------------------------------------------------") 
 print ("Nombre de ligne sans NaN après suppression")
 print (f"Nombre de ligne erp : {nb_ligne_erp_clean} - Nombre de ligne liaison : {nb_ligne_liaison_clean} - Nombre de ligne web : {nb_ligne_web_clean}")
+
+if nb_ligne_web_clean *2 != nb_lig_web_after :
+    print("\n### Problème entre ligne WEB attendu{nb_lig_web_after} et ligne du data frame WEB {nb_ligne_web_clean *2} ###\n")
+else :
+    print("\n### test vérification ligne WEB réussi ###\n")
 print ("----------------------------------------------------------------------") 
 # ---------------------------------
 # nombre de doublon par data frame
@@ -126,7 +137,33 @@ nb_doublon_web = df_web_xls_clean['id_web'].duplicated().sum() # doublon sur la 
 print ("\n-----------------------------------------------------------------------") 
 print ("Nombre de doublon dans les data frames")
 print (f"product_id du fichier erp : {nb_doublon_erp} - product_id / id_web du fichier liaison : {nb_doublon_liaison} - id_web du fichier web : {nb_doublon_web} " )
+if nb_doublon_web *2 != nb_lig_web_after_db :
+    print("\n### Problème entre ligne WEB dédoublé attendu{nb_lig_web_after_db} et ligne du data frame WEB dédoublé {nb_doublon_web} ###\n")
+else :
+    print("\n### test vérification ligne WEB réussi ###\n")
 print ("----------------------------------------------------------------------") 
+
+# ---------------------------------
+# Détection des prix Nan ou = 0 
+# ---------------------------------
+
+invalid_prices_mask = df_erp_xls_clean['price'].isna() | (df_erp_xls_clean['price'] == 0)
+# Compter le nombre de cas
+nb_nan = df_erp_xls_clean['price'].isna().sum()
+nb_zero = (df_erp_xls_clean['price'] == 0).sum()
+nb_total_invalide = invalid_prices_mask.sum()
+
+print(f"--- Rapport de contrôle des prix (ERP) ---")
+print(f"Prix NaN (manquants) : {nb_nan}")
+print(f"Prix égaux à 0       : {nb_zero}")
+print(f"Total prix invalides : {nb_total_invalide}")
+
+# Suppression des lignes erronées et affichage du message
+if nb_total_invalide > 0:
+    df_erp_xls_clean = df_erp_xls_clean[~invalid_prices_mask].copy()
+    print(f"Nettoyage data frame ERP : {nb_total_invalide} ligne(s) avec un prix invalide (NaN ou 0) ont été supprimée(s).")
+else:
+    print("Nettoyage data frame ERP Aucun prix invalide détecté.")
 
 # ---------------------------------
 # insertion dans la base duckDB
