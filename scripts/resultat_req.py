@@ -52,13 +52,13 @@ try:
         output_dir, f"rapport_chiffre_affaires_{timestamp}.xlsx"
     )
     df_ca.to_excel(file_ca, index=False, engine="openpyxl")
-    print ("\n") 
+
     print(f"Fichier Excel CA généré : {file_ca}")
 
     if ca_total_attendu != file_ca :
-        print(f"\n---> Problème entre CA attendu et CA calculé \n  ")
+        print(f"---> Problème entre CA attendu et CA calculé \n  ")
     else :
-        print("\n--- Test vérification CA réussi --- \n")
+        print("--- Test vérification CA réussi --- \n")
 
     ca_total = df_ca['chiffre_affaires'].sum()
     print(f"Chiffre d'Affaires Total  : {ca_total:,.2f} € /  Chiffre d'Affaires  attendu : {ca_total_attendu:,.2f} €\n")
@@ -66,9 +66,9 @@ try:
 
 
     if file_fusion !=  len(df_ca) :
-        print (f"\n---> Problème entre fichier fusionné calculé :{len(df_ca)} et attendu : {file_fusion}  ")
+        print (f"---> Problème entre fichier fusionné calculé :{len(df_ca)} et attendu : {file_fusion}  ")
     else :
-        print("\n--- Test vérification nb fichier fusionné réussi --- ")
+        print("--- Test vérification nb fichier fusionné réussi --- ")
  
 
 
@@ -116,15 +116,15 @@ try:
     df_premium = con.execute(query_premium).df()    
     fichier_premium = os.path.join( output_dir, f"vins_premium_{timestamp}.csv")
     df_premium.to_csv(fichier_premium, index=False, encoding="utf-8")
-    print ("\n") 
+
     print(f"Fichier CSV vins premium (Z-Score > 2) généré : {fichier_premium} \n")  
     print(f"Nombre de vins millésimes : {len(df_premium)}") 
     print(f"Nombre de vins millésimes attendus: {nb_vin_mil}") 
     if nb_vin_mil != len(df_premium) :
-        print("\n---> Problème entre vins millésimes attendu et vins millésimes calculé \n")
-        print(f"---> Vins millésimes calculé : {len(df_premium)} et vins millésimes attendu {nb_vin_mil}")
+        print("---> Problème entre vins millésimes attendu et vins millésimes calculé \n")
+        print(f"Vins millésimes calculé : {len(df_premium)} et vins millésimes attendu {nb_vin_mil}")
     else :
-        print("\n--- Test nombre vins millésimes réussi --- \n")
+        print("--- Test nombre vins millésimes réussi --- ")
 
     # -------------------------------------------------------------
     #  EXTRACTION : Vins Ordinaires (Z-Score <= 2) (.csv)
@@ -139,7 +139,7 @@ try:
     df_ordinaires.to_csv(fichier_ordinaire, index=False, encoding="utf-8")
     
 
-    print(f"\nFichier CSV Vins Ordinaires (Z-Score <= 2) généré  : {fichier_ordinaire}\n")
+    print(f"Fichier CSV Vins Ordinaires (Z-Score <= 2) généré  : {fichier_ordinaire}")
 
     
     
