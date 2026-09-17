@@ -30,14 +30,6 @@ sudo docker build --no-cache -t dock_prj10 .
 
 
 
-* test des scripts en local
-
-uv run python ./scripts/insert_xls.py
-
-uv run python ./scripts/resultat_req.py
-
-
-
 * test des scripts sur docker avec création des fichiers en local
 
 
@@ -50,6 +42,13 @@ sudo docker run --rm   -v $(pwd)/data/processed:/app/data/processed   dock_prj10
 
 http://localhost:8080
 
+
+* autres commandes docker
+
+sudo docker images    //  affiche les docker présent
+
+
+sudo docker rmi -f $(docker images "name_project" )   // supprime le docker name_project
 
 * DashBoard Kestra
 
